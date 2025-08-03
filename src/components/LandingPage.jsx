@@ -8,6 +8,7 @@ const LandingPage = () => {
   const [searchInput, setSearchInput] = useState("");
   const [busStopToSearch, setBusStopToSearch] = useState("");
 
+  // get bus arrival timings by bus stop input
   const getBusData = async () => {
     const res = await fetch(
       `${import.meta.env.VITE_SERVER}/?id=${busStopToSearch}`,
@@ -32,6 +33,20 @@ const LandingPage = () => {
     enabled: !!busStopToSearch,
   });
 
+  // GET BUS STOP NAMES
+  const getBusStopData = async () => {
+    const res = await fetch(import.meta.env.VITE_BUS_STOP_NAMES);
+    if (!res.ok) {
+      throw new Error("error getting bus stop names");
+    }
+    return await res.json();
+  };
+
+  const query = useQuery({
+    queryKey: ["getBusStopNames"],
+    queryFn: getBusStopData,
+  });
+
   return (
     <div className="container">
       <h1>BusLeh?</h1>
@@ -49,21 +64,45 @@ const LandingPage = () => {
         >
           Search
         </Button>
-        <Button className="col-md-2">View all buses</Button>
+        <Button className="col-md-2">View all bus stops</Button>
       </div>
-
       {querySearch.isSuccess && (
-        <div>
-          <h2>Bus stop name</h2>
-          <BusStopName busStopNo={busStopToSearch} />
+        <>
+          {/* // SEARCHED BUS STOP */}
+          <div className="row">
+            <BusStopName
+              className="col-md-2"
+              busStopNo={busStopToSearch}
+              busStopDetailIdx={2}
+            />
+            {", "}
+            <BusStopName
+              className="col-md-2"
+              busStopNo={busStopToSearch}
+              busStopDetailIdx={3}
+            />
+          </div>
+
+          {/* // BUS ARRIVAL TIMINGS THAT MATCH THE SEARCHED BUS STOP */}
           {querySearch.data.services.map((bus, idx) => (
             <div className="row" key={idx}>
               <div>{bus.no}</div>
-              <div></div>
-              {JSON.stringify(bus)}
+              <BusStopName
+                className="col-md-2"
+                busStopNo={bus.next.origin_code}
+                busStopDetailIdx={2}
+              />
+              {" - "}
+              <BusStopName
+                className="col-md-2"
+                busStopNo={bus.next.destination_code}
+                busStopDetailIdx={2}
+              />
+              {/* GET THE DIFFERENCE IN TIME NOW VS INCOMING BUS TIME */}
+              {/* {JSON.stringify(bus)} */}
             </div>
           ))}
-        </div>
+        </>
       )}
     </div>
   );

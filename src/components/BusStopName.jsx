@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 
 const BusStopName = (props) => {
-  const [busStopName, setBusStopName] = useState("");
+  //   const [busStopName, setBusStopName] = useState("");
 
   // GET BUS STOP NAMES
   const getBusStopData = async () => {
-    const res = await fetch(import.meta.env.BUS_STOP_NAMES);
+    const res = await fetch(import.meta.env.VITE_BUS_STOP_NAMES);
     if (!res.ok) {
       throw new Error("error getting bus stop names");
     }
@@ -17,13 +17,11 @@ const BusStopName = (props) => {
     queryKey: ["getBusStopNames"],
     queryFn: getBusStopData,
   });
+  // if props.busStopDetailIdx = 2, it means that we're returning the name of the bus stop
+  // if props.busStopDetailIdx = 3, it means that we're returning the address of the bus stop
+  const busStopDetail = query.data[props.busStopNo][props.busStopDetailIdx];
 
-  console.log(props.busStopNo);
-  //   console.log(query.data[props.busStopNo][2]);
-
-  return (
-    <div>{query.data ? JSON.stringify(query.data["10009"]) : "Loading..."}</div>
-  );
+  return <div className={props.className}>{busStopDetail}</div>;
 };
 
 export default BusStopName;
