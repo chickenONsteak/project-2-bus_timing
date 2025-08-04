@@ -2,6 +2,7 @@ import { useQueryClient, useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import Button from "./Button";
 import BusStopName from "./BusStopName";
+import TimeTillArrival from "./TimeTillArrival";
 
 const LandingPage = () => {
   const queryClient = useQueryClient();
@@ -82,6 +83,7 @@ const LandingPage = () => {
               busStopDetailIdx={3}
             />
           </div>
+          {/* <div>{JSON.stringify(querySearch.data.services)}</div> */}
 
           {/* // BUS ARRIVAL TIMINGS THAT MATCH THE SEARCHED BUS STOP */}
           {querySearch.data.services.map((bus, idx) => (
@@ -99,7 +101,11 @@ const LandingPage = () => {
                 busStopDetailIdx={2}
               />
               {/* GET THE DIFFERENCE IN TIME NOW VS INCOMING BUS TIME */}
-              {/* {JSON.stringify(bus)} */}
+              <TimeTillArrival
+                incomingBus1={bus.next}
+                incomingBus2={bus.next2}
+                incomingBus3={bus.next3}
+              />
             </div>
           ))}
         </>
