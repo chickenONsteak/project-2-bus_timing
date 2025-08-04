@@ -6,7 +6,7 @@ const TimeTillArrival = (props) => {
     if (durationInMins > 0) {
       return durationInMins;
     } else {
-      return "Arriving";
+      return "Arr";
     }
   };
 
