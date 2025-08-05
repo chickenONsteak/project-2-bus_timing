@@ -1,14 +1,23 @@
 import { useState } from "react";
-import "./App.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LandingPage from "./components/LandingPage";
+import "./components/Global.css";
+import { Route, Routes } from "react-router-dom";
+import SearchResults from "./components/SearchResults";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <LandingPage />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="search-result/:busStopNumber"
+          element={<SearchResults />}
+        />
+        {/* <Route path="*" element={<NotFound />} /> */}
+      </Routes>
     </QueryClientProvider>
   );
 }

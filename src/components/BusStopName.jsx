@@ -17,11 +17,22 @@ const BusStopName = (props) => {
     queryKey: ["getBusStopNames"],
     queryFn: getBusStopData,
   });
-  // if props.busStopDetailIdx = 2, it means that we're returning the name of the bus stop
-  // if props.busStopDetailIdx = 3, it means that we're returning the address of the bus stop
-  const busStopDetail = query.data[props.busStopNo][props.busStopDetailIdx];
+  // // if props.busStopDetailIdx = 2, it means that we're returning the name of the bus stop
+  // // if props.busStopDetailIdx = 3, it means that we're returning the address of the bus stop
+  // const busStopDetail = query.data[props.busStopNo][props.busStopDetailIdx];
+  // // using .at will be better but you need to convert it to array — is there a workaround besides .at?
+  // // const busStopDetail = query.data.at(props.busStopNo)[props.busStopDetailIdx];
 
-  return <div className={props.className}>{busStopDetail}</div>;
+  return (
+    <>
+      {query.isSuccess && (
+        <div className={props.className}>
+          {query.data[props.busStopNo][props.busStopDetailIdx]}
+        </div>
+      )}
+    </>
+  );
+  // return <div className={props.className}>{JSON.stringify(query.data)}</div>;
 };
 
 export default BusStopName;

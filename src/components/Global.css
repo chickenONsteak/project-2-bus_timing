@@ -1,0 +1,18 @@
+body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  color: #6750a4;
+  font-weight: 600;
+}
+
+.button-header {
+  font-size: small;
+  font-weight: 400;
+}
