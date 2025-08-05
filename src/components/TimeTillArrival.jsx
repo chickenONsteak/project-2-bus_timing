@@ -12,21 +12,29 @@ const TimeTillArrival = (props) => {
 
   return (
     <div className="row">
-      <div className="col-md-1">
-        {props.incomingBus1
-          ? convertToMins(props.incomingBus1.duration_ms)
-          : "-"}
-      </div>
-      <div className="col-md-1">
-        {props.incomingBus2
-          ? convertToMins(props.incomingBus2.duration_ms)
-          : "-"}
-      </div>
-      <div className="col-md-1">
-        {props.incomingBus3
-          ? convertToMins(props.incomingBus3.duration_ms)
-          : "-"}
-      </div>
+      {props.incomingBus1 ? (
+        <div className={`col-md-2 ${props.busAvailableLarge}`}>
+          {convertToMins(props.incomingBus1.duration_ms)}
+        </div>
+      ) : (
+        <div className={`col-md-2 ${props.busNotAvailableLarge}`}>{"-"}</div>
+      )}
+
+      {props.incomingBus2 ? (
+        <div className={`col-md-2 ${props.busAvailableLarge}`}>
+          {convertToMins(props.incomingBus2.duration_ms)}
+        </div>
+      ) : (
+        <div className={`col-md-2 ${props.busNotAvailableLarge}`}>{"-"}</div>
+      )}
+
+      {props.incomingBus3 ? (
+        <div className={`col-md-2 ${props.busAvailableLarge}`}>
+          {convertToMins(props.incomingBus3.duration_ms)}
+        </div>
+      ) : (
+        <div className={`col-md-2 ${props.busNotAvailableLarge}`}>{"-"}</div>
+      )}
     </div>
   );
 };

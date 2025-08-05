@@ -1,0 +1,31 @@
+h1 {
+  font-size: 3.5rem;
+}
+
+.searchResultHeader {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.searchResult {
+  display: inline;
+  color: #6750a4;
+}
+
+.busNumberLarge {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #3cb371;
+}
+
+.busRoute {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: dimgray;
+  margin-bottom: 15px;
+}
+
+.busJourney {
+  display: inline;
+}

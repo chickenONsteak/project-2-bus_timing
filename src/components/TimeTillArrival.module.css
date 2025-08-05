@@ -1,0 +1,9 @@
+.busAvailableLarge {
+  font-size: 1.8rem;
+  color: #3cb371;
+}
+
+.busNotAvailableLarge {
+  font-size: 1.8rem;
+  color: #b22222;
+}

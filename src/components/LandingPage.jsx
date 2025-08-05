@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import Hero from "./Hero";
 
 const LandingPage = () => {
-  const navigate = useNavigate();
-  const [searchInput, setSearchInput] = useState("");
+  // const navigate = useNavigate();
+  // const [searchInput, setSearchInput] = useState("");
 
-  const handleSearch = () => {
-    navigate(`/search-result/${searchInput}`);
-  };
+  // const handleSearch = () => {
+  //   navigate(`/search-result/${searchInput}`);
+  // };
 
   return (
     <div className="container">
@@ -29,7 +29,9 @@ const LandingPage = () => {
       {/* </Button> */}
       {/* // <Button className="col-md-1 button-header">View all bus stops</Button> */}
       {/* // </div> */}
-      <Hero setSearchInputFn={setSearchInput} />
+      <div className="row">
+        <Hero className="col-md-12" />
+      </div>
 
       <br />
       <br />
@@ -38,6 +40,7 @@ const LandingPage = () => {
         <div className="col-md-2">
           <Favourites />
         </div>
+        <div className="col-md-10">map</div>
       </div>
     </div>
   );
