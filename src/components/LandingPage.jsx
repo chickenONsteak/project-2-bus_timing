@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Button from "./Button";
 import BusStopName from "./BusStopName";
 import TimeTillArrival from "./TimeTillArrival";
+import Favourites from "./Favourites";
 
 const LandingPage = () => {
   const queryClient = useQueryClient();
@@ -67,9 +68,14 @@ const LandingPage = () => {
         </Button>
         <Button className="col-md-2">View all bus stops</Button>
       </div>
+
+      <div className="col-md-2">
+        <Favourites />
+      </div>
+
+      {/* // BUS STOP SEARCH RESULTS */}
       {querySearch.isSuccess && (
         <>
-          {/* // SEARCHED BUS STOP */}
           <div className="row">
             <BusStopName
               className="col-md-2"
