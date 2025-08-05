@@ -76,6 +76,7 @@ const LandingPage = () => {
       {/* // BUS STOP SEARCH RESULTS */}
       {querySearch.isSuccess && (
         <>
+          <Button>Add to favourites</Button>
           <div className="row">
             <BusStopName
               className="col-md-2"
