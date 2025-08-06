@@ -2,8 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 
 const BusStopName = (props) => {
-  //   const [busStopName, setBusStopName] = useState("");
-
   // GET BUS STOP NAMES
   const getBusStopData = async () => {
     const res = await fetch(import.meta.env.VITE_BUS_STOP_NAMES);
@@ -19,8 +17,8 @@ const BusStopName = (props) => {
   });
   // // if props.busStopDetailIdx = 2, it means that we're returning the name of the bus stop
   // // if props.busStopDetailIdx = 3, it means that we're returning the address of the bus stop
-  // const busStopDetail = query.data[props.busStopNo][props.busStopDetailIdx];
-  // // using .at will be better but you need to convert it to array — is there a workaround besides .at?
+  // const busStopDetail = query.data[props.busStopNo][props.busStopDetailIdx]; // done on the return statement because we need the query to be done first, else will throw undefined
+  // // using .at will be better since non-valid inputs will return as undefined, which you can then specify what to return to the user — but you need to convert it to array, which will require quite a bit of effort, hence deprioritised for this
   // // const busStopDetail = query.data.at(props.busStopNo)[props.busStopDetailIdx];
 
   return (

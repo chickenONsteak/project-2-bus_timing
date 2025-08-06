@@ -1,4 +1,4 @@
-import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import BusStopName from "./BusStopName";
 import Button from "./Button";
@@ -39,8 +39,14 @@ const SearchResults = () => {
         Authorization: "Bearer " + import.meta.env.VITE_AIRTABLE_KEY,
       },
       body: JSON.stringify({
-        "Saved bus stop number": busStopNumber,
-        "Saved name": savedName,
+        records: [
+          {
+            fields: {
+              "Bus stop number": Number(busStopNumber), // Airtable column wants int and not string
+              "Saved name": savedName,
+            },
+          },
+        ],
       }),
     });
     if (!addRes.ok) {
@@ -76,9 +82,14 @@ const SearchResults = () => {
         </div>
 
         <div className="col-md-10">
+          {/* <div
+            className={`col-md-10 ${searchResultsStyles.searchResultHeader}`}
+          >
+            {busStopNumber}
+          </div> */}
           <div className="row">
             <div
-              className={`col-md-8 ${searchResultsStyles.searchResultHeader}`}
+              className={`col-md-7 ${searchResultsStyles.searchResultHeader}`}
             >
               <BusStopName
                 className={searchResultsStyles.searchResult}
@@ -86,7 +97,10 @@ const SearchResults = () => {
                 busStopNo={busStopNumber}
                 busStopDetailIdx={2}
               />
-              <span>, at </span>
+              <span className={searchResultsStyles.searchResult}>
+                {` (${busStopNumber})`}
+              </span>
+              <span>{" — at "}</span>
               <BusStopName
                 className={searchResultsStyles.searchResult}
                 //   busStopNo={props.busStopToSearch}
@@ -95,10 +109,16 @@ const SearchResults = () => {
               />
             </div>
             <input
+              className={`col-md-2 ${searchResultsStyles.addFavourite}`}
               type="text"
               onChange={(event) => setSavedName(event.target.value)}
             />
-            <Button className="col-md-2">Add to favourites</Button>
+            <Button
+              className={`col-md-2 ${searchResultsStyles.addFavourite}`}
+              propFunction={mutateAdd}
+            >
+              Add to favourites
+            </Button>
           </div>
 
           <br />

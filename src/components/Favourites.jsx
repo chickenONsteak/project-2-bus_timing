@@ -2,8 +2,9 @@ import React, { use } from "react";
 import Button from "./Button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import BusStopName from "./BusStopName";
+import favouriteStyles from "./Favourites.module.css";
 
-const Favourites = (props) => {
+const Favourites = () => {
   const queryFavourites = useQueryClient();
 
   // RETRIEVE DATA FROM AIRTABLE
@@ -25,41 +26,17 @@ const Favourites = (props) => {
     queryFn: getFavourites,
   });
 
-  // // UPDATE DATA ON AIRTABLE
-  // const updateFavourites = async () => {
-  //   const updateRes = await fetch(import.meta.env.VITE_AIRTABLE, {
-  //     method: "PATCH",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + import.meta.env.VITE_AIRTABLE_KEY,
-  //     },
-  //   });
-  //   if (!updateRes.ok) {
-  //     return new Error("error updating favourites");
-  //   }
-  // };
-
-  // const {
-  //   mutate: mutateUpd,
-  //   isLoading: isLoadingUpd,
-  //   isError: isErrorUpd,
-  //   error: errorUpd,
-  // } = useMutation({
-  //   mutationFn: updateFavourites,
-  //   onSuccess: () => {
-  //     queryFavourites.invalidateQueries(["getFavourites"]);
-  //   },
-  // });
-
   // DELETE DATA ON AIRTABLE
-  const deleteFavourites = async () => {
-    const deleteRes = await fetch(import.meta.env.VITE_AIRTABLE, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + import.meta.env.VITE_AIR_TABLE_KEY,
-      },
-    });
+  const deleteFavourites = async (id) => {
+    const deleteRes = await fetch(
+      `${import.meta.env.VITE_AIRTABLE}?records[]=${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + import.meta.env.VITE_AIRTABLE_KEY,
+        },
+      }
+    );
     if (!deleteRes.ok) {
       return new Error("error deleting favourites");
     }
@@ -79,7 +56,9 @@ const Favourites = (props) => {
 
   return (
     <div className="container">
-      <div>Saved favourites</div>
+      <div className={`${favouriteStyles.favouriteHeader}`}>
+        Saved favourites
+      </div>
       <div className="row">
         <Button className="col-md-6">Nearby</Button>
         <Button className="col-md-6">Favourites</Button>
@@ -88,19 +67,37 @@ const Favourites = (props) => {
       {queryGet.isSuccess &&
         queryGet.data.records.map((busStop) => {
           return (
-            <div className="row" key={busStop.id}>
-              <div className="col-md-12">{busStop.fields["Saved name"]}</div>
-              {/* <div>{busStop.fields["Bus stop number"]}</div> */}
-              <div className="col-md-9">
-                {
-                  <BusStopName
-                    busStopNo={busStop.fields["Bus stop number"]}
-                    busStopDetailIdx={2}
-                  />
-                }
+            <div key={busStop.id}>
+              <br />
+              <div className="row">
+                <div
+                  className={`col-md-12 ${favouriteStyles.favouriteSavedName}`}
+                >
+                  {busStop.fields["Saved name"]}
+                </div>
+                <div
+                  className={`col-md-12 ${favouriteStyles.favouriteBusStopDetails}`}
+                >
+                  {
+                    <BusStopName
+                      busStopNo={busStop.fields["Bus stop number"]}
+                      busStopDetailIdx={2}
+                    />
+                  }
+                </div>
+                <div
+                  className={`col-md-9 ${favouriteStyles.favouriteBusStopDetails}`}
+                >
+                  {busStop.fields["Bus stop number"]}
+                </div>
+                {/* <Button className="col-md-6">Update</Button> */}
+                <Button
+                  className="col-md-3"
+                  propFunction={() => mutateDel(busStop.id)}
+                >
+                  Del
+                </Button>
               </div>
-              {/* <Button className="col-md-6">Update</Button> */}
-              <Button className="col-md-3">Del</Button>
             </div>
           );
         })}
