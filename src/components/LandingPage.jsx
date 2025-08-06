@@ -3,6 +3,7 @@ import Button from "./Button";
 import Favourites from "./Favourites";
 import { useNavigate } from "react-router-dom";
 import Hero from "./Hero";
+import Map from "./Map";
 
 const LandingPage = () => {
   // const navigate = useNavigate();
@@ -25,7 +26,9 @@ const LandingPage = () => {
         <div className="col-md-2">
           <Favourites />
         </div>
-        <div className="col-md-10">map</div>
+        <div className="col-md-10">
+          <Map />
+        </div>
       </div>
     </div>
   );
