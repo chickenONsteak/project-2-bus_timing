@@ -33,3 +33,12 @@ h1 {
 .busJourney {
   display: inline;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: dimgray;
+}

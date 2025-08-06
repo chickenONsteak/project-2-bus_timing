@@ -4,6 +4,15 @@
   color: #6750a4;
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  font-size: medium;
+  font-weight: 500;
+  color: dimgray;
+}
+
 .favouriteSavedName {
   font-size: 1rem;
   font-weight: 600;
@@ -12,4 +21,10 @@
 
 .favouriteBusStopDetails {
   color: dimgray;
+}
+
+.delete {
+  display: flex;
+  justify-content: center;
+  align-self: center;
 }

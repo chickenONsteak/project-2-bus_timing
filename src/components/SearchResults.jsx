@@ -42,7 +42,7 @@ const SearchResults = () => {
         records: [
           {
             fields: {
-              "Bus stop number": Number(busStopNumber), // Airtable column wants int and not string
+              "Bus stop number": busStopNumber,
               "Saved name": savedName,
             },
           },
@@ -63,7 +63,7 @@ const SearchResults = () => {
   } = useMutation({
     mutationFn: addFavourites,
     onSuccess: () => {
-      queryClient.invalidateQueries(["getFavourites"]);
+      setSavedName(""), queryClient.invalidateQueries(["getFavourites"]);
     },
   });
 
@@ -82,11 +82,6 @@ const SearchResults = () => {
         </div>
 
         <div className="col-md-10">
-          {/* <div
-            className={`col-md-10 ${searchResultsStyles.searchResultHeader}`}
-          >
-            {busStopNumber}
-          </div> */}
           <div className="row">
             <div
               className={`col-md-7 ${searchResultsStyles.searchResultHeader}`}
@@ -112,6 +107,7 @@ const SearchResults = () => {
               className={`col-md-2 ${searchResultsStyles.addFavourite}`}
               type="text"
               onChange={(event) => setSavedName(event.target.value)}
+              value={savedName}
             />
             <Button
               className={`col-md-2 ${searchResultsStyles.addFavourite}`}
@@ -124,6 +120,12 @@ const SearchResults = () => {
           <br />
 
           {/* <div>{JSON.stringify(querySearch.data.services)}</div> */}
+          {querySearch.isLoading && (
+            <div className={`row ${searchResultsStyles.loading}`}>
+              Loading your search...
+            </div>
+          )}
+
           {/* // BUS ARRIVAL TIMINGS THAT MATCH THE SEARCHED BUS STOP */}
           {querySearch.isSuccess &&
             querySearch.data.services.map((bus, idx) => (

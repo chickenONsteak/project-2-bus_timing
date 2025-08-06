@@ -64,6 +64,14 @@ const Favourites = () => {
         <Button className="col-md-6">Favourites</Button>
       </div>
       {/* <div>{JSON.stringify(queryGet.data)}</div> */}
+      {queryGet.isLoading && (
+        <div className={`row ${favouriteStyles.loading}`}>Loading...</div>
+      )}
+
+      {isLoadingDel && (
+        <div className={`row ${favouriteStyles.loading}`}>Deleting...</div>
+      )}
+
       {queryGet.isSuccess &&
         queryGet.data.records.map((busStop) => {
           return (
@@ -76,7 +84,7 @@ const Favourites = () => {
                   {busStop.fields["Saved name"]}
                 </div>
                 <div
-                  className={`col-md-12 ${favouriteStyles.favouriteBusStopDetails}`}
+                  className={`col-md-9 ${favouriteStyles.favouriteBusStopDetails}`}
                 >
                   {
                     <BusStopName
@@ -85,18 +93,18 @@ const Favourites = () => {
                     />
                   }
                 </div>
+                <Button
+                  className={`col-md-2 ${favouriteStyles.delete}`}
+                  propFunction={() => mutateDel(busStop.id)}
+                >
+                  X
+                </Button>
                 <div
-                  className={`col-md-9 ${favouriteStyles.favouriteBusStopDetails}`}
+                  className={`col-md-12 ${favouriteStyles.favouriteBusStopDetails}`}
                 >
                   {busStop.fields["Bus stop number"]}
                 </div>
                 {/* <Button className="col-md-6">Update</Button> */}
-                <Button
-                  className="col-md-3"
-                  propFunction={() => mutateDel(busStop.id)}
-                >
-                  Del
-                </Button>
               </div>
             </div>
           );
