@@ -1,6 +1,6 @@
 import React, { use } from "react";
 import Button from "./Button";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import BusStopName from "./BusStopName";
 
 const Favourites = (props) => {
@@ -25,44 +25,31 @@ const Favourites = (props) => {
     queryFn: getFavourites,
   });
 
-  // CREATE DATA ON AIRTABLE
-  const addFavourites = async () => {
-    const addRes = await fetch(import.meta.env.VITE_AIRTABLE, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + import.meta.env.VITE_AIRTABLE_KEY,
-      },
-    });
-    if (!addRes.ok) {
-      return new Error("error adding to favourites");
-    }
-    return await addRes.json();
-  };
+  // // UPDATE DATA ON AIRTABLE
+  // const updateFavourites = async () => {
+  //   const updateRes = await fetch(import.meta.env.VITE_AIRTABLE, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + import.meta.env.VITE_AIRTABLE_KEY,
+  //     },
+  //   });
+  //   if (!updateRes.ok) {
+  //     return new Error("error updating favourites");
+  //   }
+  // };
 
-  const queryAdd = useQuery({
-    queryKey: ["addFavourites"],
-    queryFn: addFavourites,
-  });
-
-  // UPDATE DATA ON AIRTABLE
-  const updateFavourites = async () => {
-    const updateRes = await fetch(import.meta.env.VITE_AIRTABLE, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + import.meta.env.VITE_AIRTABLE_KEY,
-      },
-    });
-    if (!updateRes.ok) {
-      return new Error("error updating favourites");
-    }
-  };
-
-  const queryUpdate = useQuery({
-    queryKey: ["updateFavourites"],
-    queryFn: updateFavourites,
-  });
+  // const {
+  //   mutate: mutateUpd,
+  //   isLoading: isLoadingUpd,
+  //   isError: isErrorUpd,
+  //   error: errorUpd,
+  // } = useMutation({
+  //   mutationFn: updateFavourites,
+  //   onSuccess: () => {
+  //     queryFavourites.invalidateQueries(["getFavourites"]);
+  //   },
+  // });
 
   // DELETE DATA ON AIRTABLE
   const deleteFavourites = async () => {
@@ -78,9 +65,16 @@ const Favourites = (props) => {
     }
   };
 
-  const queryDelete = useQuery({
-    queryKey: ["deleteFavourites"],
-    queryFn: deleteFavourites,
+  const {
+    mutate: mutateDel,
+    isLoading: isLoadingDel,
+    isError: isErrorDel,
+    error: errorDel,
+  } = useMutation({
+    mutationFn: deleteFavourites,
+    onSuccess: () => {
+      queryFavourites.invalidateQueries(["getFavourites"]);
+    },
   });
 
   return (
@@ -95,7 +89,7 @@ const Favourites = (props) => {
         queryGet.data.records.map((busStop) => {
           return (
             <div className="row" key={busStop.id}>
-              <div className="col-md-9">{busStop.fields["Saved name"]}</div>
+              <div className="col-md-12">{busStop.fields["Saved name"]}</div>
               {/* <div>{busStop.fields["Bus stop number"]}</div> */}
               <div className="col-md-9">
                 {
@@ -105,6 +99,7 @@ const Favourites = (props) => {
                   />
                 }
               </div>
+              {/* <Button className="col-md-6">Update</Button> */}
               <Button className="col-md-3">Del</Button>
             </div>
           );

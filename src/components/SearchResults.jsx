@@ -1,5 +1,5 @@
 import { useQueryClient, useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import BusStopName from "./BusStopName";
 import Button from "./Button";
 import TimeTillArrival from "./TimeTillArrival";
@@ -12,6 +12,7 @@ import busArrivalStyles from "./TimeTillArrival.module.css";
 const SearchResults = () => {
   const queryClient = useQueryClient();
   const busStopNumber = useParams().busStopNumber;
+  const [savedName, setSavedName] = useState();
 
   // GET BUS ARRIVAL TIMINGS WITH BUS STOP INPUT
   const getBusData = async () => {
@@ -29,10 +30,36 @@ const SearchResults = () => {
     queryFn: getBusData,
   });
 
-  // // ADD BUS STOP TO FAVOURITES
-  // const addBusData = async () => {
-  //   const resAddFavourite =
-  // }
+  // ADD BUS STOP TO FAVOURITES BY CREATING DATA ON AIRTABLE
+  const addFavourites = async () => {
+    const addRes = await fetch(import.meta.env.VITE_AIRTABLE, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + import.meta.env.VITE_AIRTABLE_KEY,
+      },
+      body: JSON.stringify({
+        "Saved bus stop number": busStopNumber,
+        "Saved name": savedName,
+      }),
+    });
+    if (!addRes.ok) {
+      return new Error("error adding to favourites");
+    }
+    return await addRes.json();
+  };
+
+  const {
+    mutate: mutateAdd,
+    isLoading: isLoadingAdd,
+    isError: isErrorAdd,
+    error: errorAdd,
+  } = useMutation({
+    mutationFn: addFavourites,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getFavourites"]);
+    },
+  });
 
   return (
     <div className="container">
@@ -67,6 +94,10 @@ const SearchResults = () => {
                 busStopDetailIdx={3}
               />
             </div>
+            <input
+              type="text"
+              onChange={(event) => setSavedName(event.target.value)}
+            />
             <Button className="col-md-2">Add to favourites</Button>
           </div>
 
