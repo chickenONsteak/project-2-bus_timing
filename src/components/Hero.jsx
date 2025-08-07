@@ -9,7 +9,6 @@ const Hero = (props) => {
   const [searchInput, setSearchInput] = useState("");
   const [isValidSearch, setIsValidSearch] = useState(true);
   const [searchAddress, setSearchAddress] = useState("");
-  //   const [busStopsNearby, setBusStopsNearby] = useState([]);
 
   // GET BUS STOP NAMES
   const getBusStopData = async () => {
@@ -48,15 +47,6 @@ const Hero = (props) => {
     return await addressSearchRes.json();
   };
 
-  // FROM CHATGPT — DELETE AFTER REFACTORING
-  //   fetch(
-  //     `/api/api/common/elastic/search?searchVal=${searchAddress}&returnGeom=Y&getAddrDetails=Y&pageNum=1`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //     });
-
   const searchAddressQuery = useQuery({
     queryKey: ["getAddress", searchAddress],
     queryFn: getAddressSearch,
@@ -89,10 +79,8 @@ const Hero = (props) => {
           onChange={(event) => setSearchInput(event.target.value)}
         />
         <Button className="col-md-1 button-header" propFunction={handleSearch}>
-          {/* <Link to={`/search-result/${searchInput}`}>Search</Link> */}
           Search
         </Button>
-        {/* <Button className="col-md-1 button-header">View all bus stops</Button> */}
       </div>
       {isValidSearch ? (
         <div>&nbsp;</div>
@@ -119,11 +107,6 @@ const Hero = (props) => {
               return <option value={option.ADDRESS} key={idx}></option>;
             })}
         </datalist>
-        {/* RESULTS — DELETE AFTERWARDS */}
-        {searchAddressQuery.isSuccess && (
-          <div>{JSON.stringify(searchAddressQuery.data)}</div>
-        )}
-        <div>{JSON.stringify(searchAddress)}</div>
 
         <Button
           className="col-md-1 button-header"

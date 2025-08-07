@@ -87,7 +87,6 @@ const SearchResults = () => {
             >
               <BusStopName
                 className={searchResultsStyles.searchResult}
-                //   busStopNo={props.busStopToSearch}
                 busStopNo={busStopNumber}
                 busStopDetailIdx={2}
               />
@@ -97,7 +96,6 @@ const SearchResults = () => {
               <span>{" — at "}</span>
               <BusStopName
                 className={searchResultsStyles.searchResult}
-                //   busStopNo={props.busStopToSearch}
                 busStopNo={busStopNumber}
                 busStopDetailIdx={3}
               />
@@ -118,7 +116,6 @@ const SearchResults = () => {
 
           <br />
 
-          {/* <div>{JSON.stringify(querySearch.data.services)}</div> */}
           {querySearch.isLoading && (
             <div className={`row ${searchResultsStyles.loading}`}>
               Loading your search...

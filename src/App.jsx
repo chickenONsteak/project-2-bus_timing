@@ -16,7 +16,6 @@ function App() {
           path="search-result/:busStopNumber"
           element={<SearchResults />}
         />
-        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </QueryClientProvider>
   );

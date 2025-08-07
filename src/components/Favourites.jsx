@@ -6,12 +6,8 @@ import favouriteStyles from "./Favourites.module.css";
 
 const Favourites = (props) => {
   const queryFavourites = useQueryClient();
-  const [isNearbyFocus, setIsNearbyFocus] = useState(true);
+  const [isNearbyFocus, setIsNearbyFocus] = useState(false);
   const [listOfNearbyBusStops, setListOfNearbyBusStops] = useState([]);
-
-  let counter = 0;
-
-  counter++;
 
   // FOR RENDERING NEARBY BUS STOPS
   // CALCULATE DISTANCE WITH HAVERSINE FORMULA — source: https://www.movable-type.co.uk/scripts/latlong.html
@@ -41,7 +37,6 @@ const Favourites = (props) => {
 
   // QUERY.DATA RETURNS AN OBJECT, NEED TO USE FOR...IN TO MAP THROUGH AND CALCULATE DISTANCE
   const listNearbyBusStops = () => {
-    console.log("testewtstest");
     for (const busStopNo in getBusStopQuery.data) {
       const lat = getBusStopQuery.data[busStopNo][1];
       const long = getBusStopQuery.data[busStopNo][0];
@@ -60,7 +55,6 @@ const Favourites = (props) => {
   };
 
   useEffect(() => {
-    // getBusStopData();
     if (props.addressLatLong.lat && props.addressLatLong.long) {
       listNearbyBusStops();
     }
@@ -121,44 +115,55 @@ const Favourites = (props) => {
 
   return (
     <div className="container">
-      {/* <div>{JSON.stringify(props.addressLatLong)}</div> */}
       <div className={`${favouriteStyles.favouriteHeader}`}>
         Saved favourites
       </div>
       <div className="row">
         <Button
           className="col-md-6"
-          propFunction={() => setIsNearbyFocus(true)}
-        >
-          Nearby
-        </Button>
-        <Button
-          className="col-md-6"
           propFunction={() => setIsNearbyFocus(false)}
         >
           Favourites
         </Button>
+        <Button
+          className="col-md-6"
+          propFunction={() => setIsNearbyFocus(true)}
+        >
+          Nearby
+        </Button>
       </div>
 
-      {console.log(isNearbyFocus)}
-      {console.log(getBusStopQuery.isSuccess)}
-      {console.log(listOfNearbyBusStops)}
       {/* NEARBY BUS STOPS */}
       {isNearbyFocus && getBusStopQuery.isSuccess && (
         <>
-          {listOfNearbyBusStops.map((busStopNo) => {
+          {listOfNearbyBusStops.map((busStopNo, idx) => {
             return (
-              <>
-                <BusStopName busStopNo={busStopNo} busStopDetailIdx={2} />
-                <BusStopName busStopNo={busStopNo} busStopDetailIdx={3} />
-              </>
+              <div key={idx}>
+                <br />
+                <div className="row">
+                  <BusStopName
+                    className={`col-md-12 ${favouriteStyles.favouriteSavedName}`}
+                    busStopNo={busStopNo}
+                    busStopDetailIdx={2}
+                  />
+                  <div
+                    className={`col-md-12 ${favouriteStyles.favouriteBusStopDetails}`}
+                  >
+                    {busStopNo}
+                  </div>
+                  <BusStopName
+                    className={`col-md-12 ${favouriteStyles.favouriteBusStopDetails}`}
+                    busStopNo={busStopNo}
+                    busStopDetailIdx={3}
+                  />
+                </div>
+              </div>
             );
           })}
         </>
       )}
 
       {/* FAVOURITE BUS STOPS */}
-      {/* <div>{JSON.stringify(queryGet.data)}</div> */}
       {!isNearbyFocus && queryGet.isLoading && (
         <div className={`row ${favouriteStyles.loading}`}>Loading...</div>
       )}
@@ -200,7 +205,6 @@ const Favourites = (props) => {
                 >
                   {busStop.fields["Bus stop number"]}
                 </div>
-                {/* <Button className="col-md-6">Update</Button> */}
               </div>
             </div>
           );

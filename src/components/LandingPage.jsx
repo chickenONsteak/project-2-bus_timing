@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import Button from "./Button";
 import Favourites from "./Favourites";
-import { useNavigate } from "react-router-dom";
 import Hero from "./Hero";
 import Map from "./Map";
 
@@ -10,7 +8,6 @@ const LandingPage = () => {
 
   return (
     <div className="container">
-      {/* <div>{JSON.stringify(addressLatLong)}</div> */}
       <div className="row">
         <Hero
           className="col-md-12"
