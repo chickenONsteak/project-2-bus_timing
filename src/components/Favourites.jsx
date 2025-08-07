@@ -9,6 +9,10 @@ const Favourites = (props) => {
   const [isNearbyFocus, setIsNearbyFocus] = useState(true);
   const [listOfNearbyBusStops, setListOfNearbyBusStops] = useState([]);
 
+  let counter = 0;
+
+  counter++;
+
   // FOR RENDERING NEARBY BUS STOPS
   // CALCULATE DISTANCE WITH HAVERSINE FORMULA — source: https://www.movable-type.co.uk/scripts/latlong.html
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -37,6 +41,7 @@ const Favourites = (props) => {
 
   // QUERY.DATA RETURNS AN OBJECT, NEED TO USE FOR...IN TO MAP THROUGH AND CALCULATE DISTANCE
   const listNearbyBusStops = () => {
+    console.log("testewtstest");
     for (const busStopNo in getBusStopQuery.data) {
       const lat = getBusStopQuery.data[busStopNo][1];
       const long = getBusStopQuery.data[busStopNo][0];
@@ -55,11 +60,11 @@ const Favourites = (props) => {
   };
 
   useEffect(() => {
-    getBusStopData();
-    if (!listOfNearbyBusStops) {
+    // getBusStopData();
+    if (props.addressLatLong.lat && props.addressLatLong.long) {
       listNearbyBusStops();
     }
-  }, []);
+  }, [props.addressLatLong.lat, props.addressLatLong.long]);
 
   const getBusStopQuery = useQuery({
     queryKey: ["getBusStopData"],
@@ -135,6 +140,9 @@ const Favourites = (props) => {
         </Button>
       </div>
 
+      {console.log(isNearbyFocus)}
+      {console.log(getBusStopQuery.isSuccess)}
+      {console.log(listOfNearbyBusStops)}
       {/* NEARBY BUS STOPS */}
       {isNearbyFocus && getBusStopQuery.isSuccess && (
         <>
