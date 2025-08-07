@@ -55,7 +55,10 @@ const Favourites = (props) => {
   };
 
   useEffect(() => {
-    getBusStopData(), listNearbyBusStops();
+    getBusStopData();
+    if (!listOfNearbyBusStops) {
+      listNearbyBusStops();
+    }
   }, []);
 
   const getBusStopQuery = useQuery({
