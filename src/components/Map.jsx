@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 
-const Map = () => {
+const Map = (props) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    // Prevent initialising map multiple times
+    // PREVENT INITIALISING MAP MULTIPLE TIMES
     if (mapRef.current !== null) return;
 
     // Define bounds
@@ -13,11 +13,22 @@ const Map = () => {
     const ne = window.L.latLng(1.494, 104.502);
     const bounds = window.L.latLngBounds(sw, ne);
 
-    // Initialise map on the div in return statement
-    mapRef.current = window.L.map("mapdiv", {
-      center: window.L.latLng(1.2868108, 103.8545349),
-      zoom: 16,
-    });
+    // INITIALISE MAP ON THE DIV IN RETURN STATEMENT
+    // IF USER ENTERS A VALID ADDRESS INPUT, FOCUS TO SEARCHED LOCATION
+    if (props.addressLatLong.lat && props.addressLatLong.long) {
+      mapRef.current = window.L.map("mapdiv", {
+        center: window.L.latLng(
+          props.addressLatLong.lat,
+          props.addressLatLong.long
+        ),
+        zoom: 19,
+      });
+    } else {
+      mapRef.current = window.L.map("mapdiv", {
+        center: window.L.latLng(1.2868108, 103.8545349),
+        zoom: 16,
+      });
+    }
 
     mapRef.current.setMaxBounds(bounds);
 
@@ -40,7 +51,7 @@ const Map = () => {
         mapRef.current = null;
       }
     };
-  }, []);
+  }, [props.addressLatLong]);
 
   return (
     <div

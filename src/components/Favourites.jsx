@@ -37,6 +37,7 @@ const Favourites = (props) => {
 
   // QUERY.DATA RETURNS AN OBJECT, NEED TO USE FOR...IN TO MAP THROUGH AND CALCULATE DISTANCE
   const listNearbyBusStops = () => {
+    setListOfNearbyBusStops([]); // empty out the previous list (if this is a new search)
     for (const busStopNo in getBusStopQuery.data) {
       const lat = getBusStopQuery.data[busStopNo][1];
       const long = getBusStopQuery.data[busStopNo][0];
@@ -55,10 +56,10 @@ const Favourites = (props) => {
   };
 
   useEffect(() => {
-    if (props.addressLatLong.lat && props.addressLatLong.long) {
+    if (props.addressLatLong) {
       listNearbyBusStops();
     }
-  }, [props.addressLatLong.lat, props.addressLatLong.long]);
+  }, [props.addressLatLong]);
 
   const getBusStopQuery = useQuery({
     queryKey: ["getBusStopData"],
@@ -115,9 +116,17 @@ const Favourites = (props) => {
 
   return (
     <div className="container">
-      <div className={`${favouriteStyles.favouriteHeader}`}>
-        Saved favourites
-      </div>
+      {isNearbyFocus ? (
+        <div className={`${favouriteStyles.favouriteHeader}`}>
+          Bus stops nearby
+        </div>
+      ) : (
+        <div className={`${favouriteStyles.favouriteHeader}`}>
+          Saved favourites
+        </div>
+      )}
+      <hr className="rounded" />
+
       <div className="row">
         <Button
           className="col-md-6"
@@ -133,13 +142,20 @@ const Favourites = (props) => {
         </Button>
       </div>
 
+      <br />
+
       {/* NEARBY BUS STOPS */}
+      {isNearbyFocus && listOfNearbyBusStops.length === 0 && (
+        <div className={`row ${favouriteStyles.loading}`}>
+          <div>Enter and select your address in the search bar above</div>
+        </div>
+      )}
+
       {isNearbyFocus && getBusStopQuery.isSuccess && (
         <>
           {listOfNearbyBusStops.map((busStopNo, idx) => {
             return (
               <div key={idx}>
-                <br />
                 <div className="row">
                   <BusStopName
                     className={`col-md-12 ${favouriteStyles.favouriteSavedName}`}
@@ -157,6 +173,7 @@ const Favourites = (props) => {
                     busStopDetailIdx={3}
                   />
                 </div>
+                <hr className="dotted" />
               </div>
             );
           })}
@@ -177,7 +194,6 @@ const Favourites = (props) => {
         queryGet.data.records.map((busStop) => {
           return (
             <div key={busStop.id}>
-              <br />
               <div className="row">
                 <div
                   className={`col-md-12 ${favouriteStyles.favouriteSavedName}`}
@@ -198,7 +214,7 @@ const Favourites = (props) => {
                   className={`col-md-2 ${favouriteStyles.delete}`}
                   propFunction={() => mutateDel(busStop.id)}
                 >
-                  X
+                  -
                 </Button>
                 <div
                   className={`col-md-12 ${favouriteStyles.favouriteBusStopDetails}`}
@@ -206,6 +222,7 @@ const Favourites = (props) => {
                   {busStop.fields["Bus stop number"]}
                 </div>
               </div>
+              <hr className="dotted" />
             </div>
           );
         })}

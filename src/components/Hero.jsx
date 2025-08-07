@@ -59,8 +59,6 @@ const Hero = (props) => {
       lat: matchedAddress.LATITUDE,
       long: matchedAddress.LONGITUDE,
     });
-    console.log(matchedAddress.LATITUDE);
-    console.log(matchedAddress.LONGITUDE);
   };
 
   return (
@@ -77,6 +75,7 @@ const Hero = (props) => {
           id="search-bar"
           placeholder="Enter bus stop number here"
           onChange={(event) => setSearchInput(event.target.value)}
+          value={searchInput}
         />
         <Button className="col-md-1 button-header" propFunction={handleSearch}>
           Search
@@ -100,6 +99,7 @@ const Hero = (props) => {
           onChange={(event) => {
             setSearchAddress(event.target.value);
           }}
+          value={searchAddress}
         />
         <datalist id="addresses">
           {searchAddressQuery.isSuccess &&
