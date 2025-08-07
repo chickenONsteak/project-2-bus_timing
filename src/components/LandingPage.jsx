@@ -6,25 +6,24 @@ import Hero from "./Hero";
 import Map from "./Map";
 
 const LandingPage = () => {
-  // const navigate = useNavigate();
-  // const [searchInput, setSearchInput] = useState("");
-
-  // const handleSearch = () => {
-  //   navigate(`/search-result/${searchInput}`);
-  // };
+  const [addressLatLong, setAddressLatLong] = useState({});
 
   return (
     <div className="container">
+      {/* <div>{JSON.stringify(addressLatLong)}</div> */}
       <div className="row">
-        <Hero className="col-md-12" />
+        <Hero
+          className="col-md-12"
+          setLatLong={setAddressLatLong}
+          checkLatLong={addressLatLong}
+        />
       </div>
 
-      <br />
       <br />
 
       <div className="row">
         <div className="col-md-2">
-          <Favourites />
+          <Favourites addressLatLong={addressLatLong} />
         </div>
         <div className="col-md-10">
           <Map />

@@ -74,7 +74,6 @@ const SearchResults = () => {
       </div>
 
       <br />
-      <br />
 
       <div className="row">
         <div className="col-md-2">

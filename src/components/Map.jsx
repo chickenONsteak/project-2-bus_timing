@@ -5,7 +5,7 @@ const Map = () => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    // Prevent initializing map multiple times
+    // Prevent initialising map multiple times
     if (mapRef.current !== null) return;
 
     // Define bounds
@@ -13,7 +13,7 @@ const Map = () => {
     const ne = window.L.latLng(1.494, 104.502);
     const bounds = window.L.latLngBounds(sw, ne);
 
-    // Initialize map on the div
+    // Initialise map on the div in return statement
     mapRef.current = window.L.map("mapdiv", {
       center: window.L.latLng(1.2868108, 103.8545349),
       zoom: 16,
@@ -21,7 +21,7 @@ const Map = () => {
 
     mapRef.current.setMaxBounds(bounds);
 
-    // Add tile layer
+    // Add tile layer — for zooming (maps are built on tile layers)
     window.L.tileLayer(
       "https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png",
       {
@@ -33,13 +33,13 @@ const Map = () => {
       }
     ).addTo(mapRef.current);
 
-    // // Cleanup function to remove map on component unmount
-    // return () => {
-    //   if (mapRef.current) {
-    //     mapRef.current.remove();
-    //     mapRef.current = null;
-    //   }
-    // };
+    // Cleanup function to remove map on component unmount
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
   }, []);
 
   return (

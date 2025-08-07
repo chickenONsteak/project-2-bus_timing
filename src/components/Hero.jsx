@@ -3,11 +3,13 @@ import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-const Hero = () => {
+const Hero = (props) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [isValidSearch, setIsValidSearch] = useState(true);
+  const [searchAddress, setSearchAddress] = useState("");
+  //   const [busStopsNearby, setBusStopsNearby] = useState([]);
 
   // GET BUS STOP NAMES
   const getBusStopData = async () => {
@@ -35,11 +37,49 @@ const Hero = () => {
     }
   };
 
+  // GET ADDRESS RESULTS
+  const getAddressSearch = async () => {
+    const addressSearchRes = await fetch(
+      `/api/api/common/elastic/search?searchVal=${searchAddress}&returnGeom=Y&getAddrDetails=Y&pageNum=1`
+    );
+    if (!addressSearchRes.ok) {
+      throw new Error("error getting search results");
+    }
+    return await addressSearchRes.json();
+  };
+
+  // FROM CHATGPT — DELETE AFTER REFACTORING
+  //   fetch(
+  //     `/api/api/common/elastic/search?searchVal=${searchAddress}&returnGeom=Y&getAddrDetails=Y&pageNum=1`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     });
+
+  const searchAddressQuery = useQuery({
+    queryKey: ["getAddress", searchAddress],
+    queryFn: getAddressSearch,
+    enabled: !!searchAddress, // so that it doesn't fetch when input is empty
+  });
+
+  const handleAddressSearch = () => {
+    const matchedAddress = searchAddressQuery.data.results[0]; // note: there will only be one match since users are forced to select from the options
+    props.setLatLong({
+      lat: matchedAddress.LATITUDE,
+      long: matchedAddress.LONGITUDE,
+    });
+    console.log(matchedAddress.LATITUDE);
+    console.log(matchedAddress.LONGITUDE);
+  };
+
   return (
-    <div className="">
+    <div>
       <h1 className="row header" onClick={() => navigate("/")}>
         BusLeh?
       </h1>
+
+      {/* For bus stop input */}
       <div className="row header">
         <input
           className="col-md-3"
@@ -61,6 +101,37 @@ const Hero = () => {
           Please enter a valid bus stop number
         </div>
       )}
+
+      {/* For address input */}
+      <div className="row header">
+        <input
+          type="text"
+          list="addresses"
+          className="col-md-3"
+          placeholder="Enter address or postal code"
+          onChange={(event) => {
+            setSearchAddress(event.target.value);
+          }}
+        />
+        <datalist id="addresses">
+          {searchAddressQuery.isSuccess &&
+            searchAddressQuery.data.results.map((option, idx) => {
+              return <option value={option.ADDRESS} key={idx}></option>;
+            })}
+        </datalist>
+        {/* RESULTS — DELETE AFTERWARDS */}
+        {searchAddressQuery.isSuccess && (
+          <div>{JSON.stringify(searchAddressQuery.data)}</div>
+        )}
+        <div>{JSON.stringify(searchAddress)}</div>
+
+        <Button
+          className="col-md-1 button-header"
+          propFunction={handleAddressSearch}
+        >
+          Search
+        </Button>
+      </div>
     </div>
   );
 };
