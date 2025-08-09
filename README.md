@@ -21,7 +21,8 @@
 
 ## About the site
 
-**In a nutshell:** Bus Stop Finder & Arrival Timings
+**In a nutshell:** Bus Stop Finder & Arrival Timings.
+
 A single-page application built with **React**, **Vite**, and **TanStack** to search for addresses, locate nearby bus stops within a 500m radius, and manage a list of favourite bus stops using **Airtable** as storage.
 
 This project integrates the **OneMap** Singapore API for geolocation and **LTA** Singapore API for bus stop data.
