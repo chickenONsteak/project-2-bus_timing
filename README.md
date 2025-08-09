@@ -8,14 +8,14 @@
 
 ## Table of Contents
 
-- [About The Site]
-- [Features]
-- [Tech Stack]
+- [About The Site](https://github.com/chickenONsteak/project-2-bus_timing?tab=readme-ov-file#about-the-site)
+- [Features](https://github.com/chickenONsteak/project-2-bus_timing?tab=readme-ov-file#features-)
+- [Tech Stack](https://github.com/chickenONsteak/project-2-bus_timing?tab=readme-ov-file#tech-stack-)
 - [App Structure]
 - [File Structure]
-- [API References]
-- [Setup & Installation]
-- [Future Improvements]
+- [API References](https://github.com/chickenONsteak/project-2-bus_timing?tab=readme-ov-file#api-references-)
+- [Setup & Installation](https://github.com/chickenONsteak/project-2-bus_timing?tab=readme-ov-file#setup--installation-)
+- [Preview](https://github.com/chickenONsteak/project-2-bus_timing?tab=readme-ov-file#preview)
 
 ---
 
@@ -46,7 +46,7 @@ This project integrates the **OneMap** Singapore API for geolocation and **LTA**
 | Airtable     | Storage for favourite bus stops      |
 | OneMap       | Geocoding and bus stop location data |
 
-## Project Structure 📂
+## App Structure 📂
 
 src/
 ├── components/
