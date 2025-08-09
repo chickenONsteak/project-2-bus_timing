@@ -11,7 +11,7 @@
 - [About The Site](https://github.com/chickenONsteak/project-2-bus_timing?tab=readme-ov-file#about-the-site)
 - [Features](https://github.com/chickenONsteak/project-2-bus_timing?tab=readme-ov-file#features-)
 - [Tech Stack](https://github.com/chickenONsteak/project-2-bus_timing?tab=readme-ov-file#tech-stack-)
-- [App Structure]
+- [App Hierarchy]
 - [File Structure]
 - [API References](https://github.com/chickenONsteak/project-2-bus_timing?tab=readme-ov-file#api-references-)
 - [Setup & Installation](https://github.com/chickenONsteak/project-2-bus_timing?tab=readme-ov-file#setup--installation-)
@@ -46,19 +46,21 @@ This project integrates the **OneMap** Singapore API for geolocation and **LTA**
 | Airtable     | Storage for favourite bus stops      |
 | OneMap       | Geocoding and bus stop location data |
 
-## App Structure 📂
+## App Hierarchy 🪾
 
-src/
-├── components/
-│ ├── Favourites.jsx # Main feature component
-│ ├── Button.jsx # Custom button component
-│ ├── BusStopName.jsx # Fetches and renders bus stop name
-│
-├── styles/
-│ └── Favourites.module.css
-│
-├── App.jsx # App entry
-├── main.jsx # Vite entry
+![app hierarchy](./assets/app-hierarchy.png)
+
+## File Structure 📂
+
+- src/
+  - components/
+    - LandingPage.jsx # Consists of 3 components: Hero, Favourites, and Map
+    - SearchResults.jsx # Display all buses according to bus stop searched
+    - Hero.jsx # For search input fields
+    - Favourites.jsx # To display nearby bus stops and favourites
+    - Map.jsx # To display map
+    - BusStopName.jsx # To get the names of bus stops
+    - TimeTillArrival.jsx # To get the bus arrival timings
 
 ## API References 📜
 
