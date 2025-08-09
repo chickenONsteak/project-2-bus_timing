@@ -1,12 +1,93 @@
-# React + Vite
+# BusLeh 🚌
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+![BusLeh landing page](assets/landing-page.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Table of Contents
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- [About The Site]
+- [Features]
+- [Tech Stack]
+- [App Structure]
+- [File Structure]
+- [API References]
+- [Setup & Installation]
+- [Future Improvements]
+
+---
+
+## About the site
+
+**In a nutshell:** Bus Stop Finder & Arrival Timings
+A single-page application built with **React**, **Vite**, and **TanStack** to search for addresses, locate nearby bus stops within a 500m radius, and manage a list of favourite bus stops using **Airtable** as storage.
+
+This project integrates the **OneMap** Singapore API for geolocation and **LTA** Singapore API for bus stop data.
+
+## Features ✨
+
+- **Bus Stop Search** — Search bus arrival timings by entering bus stop number
+- **Address Search** — Search for any address in Singapore and return list of bus stops nearby (within 500m radius) using the Haversine formula.
+- **Favourites Management**
+  - Save bus stops to Airtable.
+  - Retrieve favourites from Airtable.
+  - Delete favourites with one click.
+- **Toggle View** — Switch between "Nearby" and "Favourites" views.
+
+## Tech Stack 🛠
+
+| Technology   | Purpose                              |
+| ------------ | ------------------------------------ |
+| React (Vite) | Render UI and component structure    |
+| CSS          | styling                              |
+| TanStack     | Data fetching and mutation handling  |
+| Airtable     | Storage for favourite bus stops      |
+| OneMap       | Geocoding and bus stop location data |
+
+## Project Structure 📂
+
+src/
+├── components/
+│ ├── Favourites.jsx # Main feature component
+│ ├── Button.jsx # Custom button component
+│ ├── BusStopName.jsx # Fetches and renders bus stop name
+│
+├── styles/
+│ └── Favourites.module.css
+│
+├── App.jsx # App entry
+├── main.jsx # Vite entry
+
+## API References 📜
+
+- **OneMap API:** https://www.onemap.gov.sg/apidocs/
+- **LTA API:** https://datamall.lta.gov.sg/content/datamall/en.html
+- **Airtable API:** https://airtable.com/developers/web/api/introduction
+
+## Setup & Installation 🚀
+
+1. Clone https://github.com/cheeaun/arrivelah.git repo and follow the README
+   1. This is like a proxy to [LTA's DataMall Bus Arrival API](https://datamall.lta.gov.sg/content/datamall/en.html).
+   2. Run this proxy in the background.
+2. Close this repo
+3. Install dependencies
+   > npm install
+4. Change the .env.example file to .env with the following:
+   > VITE_SERVER=<your Vite proxy server>
+   > VITE_BUS_STOP_NAMES=<json data from https://observablehq.com/@cheeaun/list-of-bus-stops-in-singapore>
+   > VITE_AIRTABLE=<your Airtable key>
+   > VITE_AIRTABLE_KEY=<your Airtable API endpoint>
+5. Run the dev server
+   > npm run dev
+
+## Preview
+
+#### Bus Arrival Timings
+
+![bus arrival timings](./assets/bus-arrival.png)
+
+#### Bus Stops Nearby
+
+![bus stops nearby](./assets/nearby-bus-stops.png)
