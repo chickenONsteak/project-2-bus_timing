@@ -76,14 +76,14 @@ This project integrates the **OneMap** Singapore API for geolocation and **LTA**
    2. Run this proxy in the background.
 2. Close this repo
 3. Install dependencies
-   > npm install
+   `npm install`
 4. Change the .env.example file to .env with the following:
-   > VITE_SERVER=<your Vite proxy server>
-   > VITE_BUS_STOP_NAMES=<json data from https://observablehq.com/@cheeaun/list-of-bus-stops-in-singapore>
-   > VITE_AIRTABLE=<your Airtable key>
-   > VITE_AIRTABLE_KEY=<your Airtable API endpoint>
+   `VITE_SERVER=<your Vite proxy server>`
+   `VITE_BUS_STOP_NAMES=<json data from https://observablehq.com/@cheeaun/list-of-bus-stops-in-singapore>`
+   `VITE_AIRTABLE=<your Airtable key>`
+   `VITE_AIRTABLE_KEY=<your Airtable API endpoint>`
 5. Run the dev server
-   > npm run dev
+   `npm run dev`
 
 ## Preview
 
